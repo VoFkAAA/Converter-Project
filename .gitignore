@@ -1,0 +1,63 @@
+# Python
+__pycache__/
+*.py[cod]
+*$py.class
+*.so
+.Python
+env/
+venv/
+ENV/
+env.bak/
+venv.bak/
+pythonenv*
+
+# Flask
+instance/
+.webassets-cache
+.env.local
+.env
+
+# IDE
+.vscode/
+.idea/
+*.swp
+*.swo
+*~
+.DS_Store
+
+# Logs
+logs/
+*.log
+*.pid
+*.seed
+
+# Testing
+.pytest_cache/
+.coverage
+htmlcov/
+.tox/
+
+# Render / deployment
+*.db
+*.sqlite
+*.sqlite3
+
+# OS
+Thumbs.db
+Desktop.ini
+
+# Project specific
+crm_testing.db
+*.db
+
+# Environment variables
+.env
+.env.production
+.env.local
+
+# Gunicorn
+gunicorn.conf.py
+
+# Docker (если будешь использовать)
+*.pid
+docker-compose.override.yml
