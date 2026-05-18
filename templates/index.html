@@ -260,8 +260,10 @@
         </div>
 
         <h1>Конвертер даты</h1>
-        <div class="subtitle">День недели по дате</div>
-
+        <div class="subtitle">
+            Выводит день недели, соответствующий введённой дате<br>
+            Диапазон дат: 01.01.1900 - 31.12.2100
+        </div>
         <div class="label">Введите дату</div>
         <div class="hint">(только цифры)</div>
 
@@ -270,7 +272,17 @@
             <button class="clear-btn" id="clearBtn">✕</button>
         </div>
 
-        <div class="error-message" id="errorMessage">Некорректная дата</div>
+        <div class="error-message" id="errorMessage">
+            Некорректная дата<br>
+            Проверьте, что дата в допустимом диапазоне<br>
+            Учтите, что:<br>
+            в январе, марте, мае, июле, августе, октябре, декабре — 31 день<br>
+            в апреле, июне, сентябре, ноябре — 30 дней<br>
+            в феврале високосного года — 29 дней<br>
+            в феврале невисокосного года — 28 дней<br>
+            в феврале 1900 и 2100 годов — 28 дней<br>
+            в феврале 2000 года — 29 дней
+        </div>
 
         <button class="convert-btn" id="convertBtn" disabled>Конвертировать</button>
 
@@ -280,7 +292,7 @@
         </div>
 
         <div class="footer">
-            © 2026 | Дата → день недели
+            © My own Converter | 2026
         </div>
     </div>
 
