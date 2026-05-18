@@ -394,7 +394,6 @@
             const dateStr = dateInput.value;
 
             if (dateStr.length !== 10) {
-                errorMessage.textContent = 'Некорректная дата';
                 errorMessage.style.display = 'block';
                 return;
             }
@@ -414,7 +413,6 @@
                     resultDiv.style.display = 'block';
                     errorMessage.style.display = 'none';
                 } else {
-                    errorMessage.textContent = data.error || 'Некорректная дата';
                     errorMessage.style.display = 'block';
                     resultDiv.style.display = 'none';
                 }
