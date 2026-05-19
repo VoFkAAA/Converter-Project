@@ -448,33 +448,34 @@
             validateAndToggleButton();
         });
 
-        // Tab навигация между блоками (день/месяц/год)
+        // Tab навигация между блоками (день/месяц/год) + Enter
         dateInput.addEventListener('keydown', (e) => {
             if (e.key === 'Tab') {
                 const cursorPos = dateInput.selectionStart;
                 const value = dateInput.value;
 
-                // Определяем, в каком блоке курсор
                 if (cursorPos <= 2) {
-                    // Блок дня — ничего не делаем, просто Tab уходит дальше
                     return;
                 } else if (cursorPos <= 5) {
-                    // Блок месяца
                     if (e.shiftKey) {
-                        // Shift+Tab — уходим в день
                         dateInput.setSelectionRange(0, 2);
                     } else {
-                        // Tab — уходим в год
                         dateInput.setSelectionRange(6, 10);
                     }
                     e.preventDefault();
                 } else {
-                    // Блок года
                     if (e.shiftKey) {
-                        // Shift+Tab — уходим в месяц
                         dateInput.setSelectionRange(3, 5);
                         e.preventDefault();
                     }
+                }
+            }
+
+            // Enter — нажимаем кнопку Конвертировать
+            if (e.key === 'Enter') {
+                e.preventDefault();
+                if (!convertBtn.disabled) {
+                    convertBtn.click();
                 }
             }
         });
