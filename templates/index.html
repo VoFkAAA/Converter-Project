@@ -318,39 +318,50 @@
             localStorage.setItem('theme', isDark ? 'dark' : 'light');
         });
 
-        // Маска ввода и очистка от нецифр (БАГ №1: разрешаем ввод букв)
-        function formatDate(value) {
-            // БАГ №1: буквы не удаляем, они остаются
-            const digits = value.replace(/[^\d]/g, '');
+        // Маска ввода с поддержкой редактирования
+        let ignoreInput = false;
 
+        dateInput.addEventListener('input', (e) => {
+            if (ignoreInput) return;
+
+            let cursorPos = dateInput.selectionStart;
+            let raw = e.target.value;
+            let digits = raw.replace(/\D/g, '');
+
+            // Ограничиваем 8 цифрами
+            if (digits.length > 8) digits = digits.slice(0, 8);
+
+            // Формируем отформатированную строку
             let formatted = '';
-            for (let i = 0; i < Math.min(digits.length, 8); i++) {
+            for (let i = 0; i < digits.length; i++) {
                 if (i === 2 || i === 4) {
                     formatted += '.';
                 }
                 formatted += digits[i];
             }
-            return formatted;
-        }
 
-        dateInput.addEventListener('input', (e) => {
-            let raw = e.target.value;
-            let formatted = formatDate(raw);
-
-            // БАГ №1: буквы остаются, поэтому если есть буквы — оставляем их в конце
-            if (/[a-zA-Zа-яА-Я]/.test(raw)) {
-                // Баг: буквы не удаляем, просто добавляем к отформатированной строке
-                const letters = raw.replace(/[\d\.]/g, '');
-                if (letters && formatted.length < 10) {
-                    formatted += letters;
-                }
-                e.target.value = formatted.slice(0, 10);
-            } else {
-                e.target.value = formatted.slice(0, 10);
+            // Сохраняем позицию курсора
+            let newCursorPos = cursorPos;
+            if (raw.length > formatted.length) {
+                // Удалили символ
+                newCursorPos = cursorPos - 1;
+            } else if (raw.length < formatted.length) {
+                // Добавили символ
+                newCursorPos = cursorPos + 1;
             }
 
+            ignoreInput = true;
+            dateInput.value = formatted;
+
+            // Восстанавливаем курсор (примерно)
+            if (newCursorPos >= 0 && newCursorPos <= formatted.length) {
+                dateInput.setSelectionRange(newCursorPos, newCursorPos);
+            }
+
+            ignoreInput = false;
             validateAndToggleButton();
         });
+
 
         // Кнопка очистки
         clearBtn.addEventListener('click', () => {
