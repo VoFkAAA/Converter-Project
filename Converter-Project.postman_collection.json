@@ -1,0 +1,2160 @@
+{
+  "info": {
+    "_postman_id": "fd174c85-47bd-4127-bda4-83b5ab42d1a1",
+    "name": "Converter-Project",
+    "schema": "https://schema.getpostman.com/json/collection/v2.1.0/collection.json",
+    "_exporter_id": "39363661"
+  },
+  "item": [
+    {
+      "name": "Health",
+      "item": [
+        {
+          "name": "200 Проверить доступность сервиса",
+          "event": [
+            {
+              "listen": "test",
+              "script": {
+                "exec": [
+                  "pm.test(\"Status code is 200\", function () {\r",
+                  "    pm.response.to.have.status(200);\r",
+                  "});\r",
+                  "\r",
+                  "pm.test(\"Response contains status 'ok'\", function () {\r",
+                  "    const response = pm.response.json();\r",
+                  "    pm.expect(response.status).to.eql(\"ok\");\r",
+                  "});\r",
+                  "\r",
+                  "pm.test(\"Response contains correct message\", function () {\r",
+                  "    const response = pm.response.json();\r",
+                  "    pm.expect(response.message).to.eql(\"Converter is running\");\r",
+                  "});"
+                ],
+                "type": "text/javascript",
+                "packages": {},
+                "requests": {}
+              }
+            }
+          ],
+          "request": {
+            "method": "GET",
+            "header": [],
+            "url": {
+              "raw": "{{Convert_base_URL}}{{health}}",
+              "host": [
+                "{{Convert_base_URL}}{{health}}"
+              ]
+            }
+          },
+          "response": []
+        },
+        {
+          "name": "405 Отправка запроса с неправильным методом (POST)",
+          "event": [
+            {
+              "listen": "test",
+              "script": {
+                "exec": [
+                  "pm.test(\"Status code is 405\", function () {\r",
+                  "    pm.response.to.have.status(405);\r",
+                  "});\r",
+                  "\r",
+                  "pm.test(\"Response contains 'Method Not Allowed'\", function () {\r",
+                  "    const responseText = pm.response.text();\r",
+                  "    pm.expect(responseText).to.include(\"Method Not Allowed\");\r",
+                  "});\r",
+                  ""
+                ],
+                "type": "text/javascript",
+                "packages": {},
+                "requests": {}
+              }
+            }
+          ],
+          "request": {
+            "method": "POST",
+            "header": [],
+            "url": {
+              "raw": "{{Convert_base_URL}}{{health}}",
+              "host": [
+                "{{Convert_base_URL}}{{health}}"
+              ]
+            }
+          },
+          "response": []
+        }
+      ]
+    },
+    {
+      "name": "Get_day",
+      "item": [
+        {
+          "name": "200 Проверка даты допустимой длины: 10 символов",
+          "event": [
+            {
+              "listen": "test",
+              "script": {
+                "exec": [
+                  "// Проверка статуса\r",
+                  "pm.test(\"Status code is 200\", function () {\r",
+                  "    pm.response.to.have.status(200);\r",
+                  "});\r",
+                  "\r",
+                  "// Проверка корректной даты\r",
+                  "pm.test(\"Response contains correct date\", function () {\r",
+                  "    const response = pm.response.json();\r",
+                  "    pm.expect(response.date).to.eql(\"15.03.1975\");\r",
+                  "});\r",
+                  "\r",
+                  "// Проверка success = true\r",
+                  "pm.test(\"Response contains success = true\", function () {\r",
+                  "    const response = pm.response.json();\r",
+                  "    pm.expect(response.success).to.eql(true);\r",
+                  "});\r",
+                  "\r",
+                  "// Проверка корректного дня недели\r",
+                  "pm.test(\"Response contains correct weekday\", function () {\r",
+                  "    const response = pm.response.json();\r",
+                  "    pm.expect(response.weekday).to.eql(\"суббота\");\r",
+                  "});\r",
+                  "\r",
+                  "// Проверка типов полей\r",
+                  "pm.test(\"Response fields have correct types\", function () {\r",
+                  "    const response = pm.response.json();\r",
+                  "    pm.expect(typeof response.date).to.eql(\"string\");\r",
+                  "    pm.expect(typeof response.success).to.eql(\"boolean\");\r",
+                  "    pm.expect(typeof response.weekday).to.eql(\"string\");\r",
+                  "});"
+                ],
+                "type": "text/javascript",
+                "packages": {},
+                "requests": {}
+              }
+            }
+          ],
+          "request": {
+            "method": "POST",
+            "header": [],
+            "body": {
+              "mode": "raw",
+              "raw": "{\r\n  \"date\": \"15.03.1975\"\r\n}",
+              "options": {
+                "raw": {
+                  "language": "json"
+                }
+              }
+            },
+            "url": {
+              "raw": "{{Convert_base_URL}}{{date_to_day}}",
+              "host": [
+                "{{Convert_base_URL}}{{date_to_day}}"
+              ]
+            }
+          },
+          "response": []
+        },
+        {
+          "name": "200 Проверка отправки запроса с задублированным параметром \"date\"",
+          "event": [
+            {
+              "listen": "test",
+              "script": {
+                "exec": [
+                  "// Проверка статуса\r",
+                  "pm.test(\"Status code is 200\", function () {\r",
+                  "    pm.response.to.have.status(200);\r",
+                  "});\r",
+                  "\r",
+                  "// Проверка корректной даты\r",
+                  "pm.test(\"Response contains correct date\", function () {\r",
+                  "    const response = pm.response.json();\r",
+                  "    pm.expect(response.date).to.eql(\"15.03.1975\");\r",
+                  "});\r",
+                  "\r",
+                  "// Проверка success = true\r",
+                  "pm.test(\"Response contains success = true\", function () {\r",
+                  "    const response = pm.response.json();\r",
+                  "    pm.expect(response.success).to.eql(true);\r",
+                  "});\r",
+                  "\r",
+                  "// Проверка корректного дня недели\r",
+                  "pm.test(\"Response contains correct weekday\", function () {\r",
+                  "    const response = pm.response.json();\r",
+                  "    pm.expect(response.weekday).to.eql(\"суббота\");\r",
+                  "});\r",
+                  "\r",
+                  "// Проверка типов полей\r",
+                  "pm.test(\"Response fields have correct types\", function () {\r",
+                  "    const response = pm.response.json();\r",
+                  "    pm.expect(typeof response.date).to.eql(\"string\");\r",
+                  "    pm.expect(typeof response.success).to.eql(\"boolean\");\r",
+                  "    pm.expect(typeof response.weekday).to.eql(\"string\");\r",
+                  "});"
+                ],
+                "type": "text/javascript",
+                "packages": {},
+                "requests": {}
+              }
+            }
+          ],
+          "request": {
+            "method": "POST",
+            "header": [],
+            "body": {
+              "mode": "raw",
+              "raw": "{\r\n  \"date\": \"15.03.1975\", \r\n  \"date\": \"15.03.1975\"\r\n}",
+              "options": {
+                "raw": {
+                  "language": "json"
+                }
+              }
+            },
+            "url": {
+              "raw": "{{Convert_base_URL}}{{date_to_day}}",
+              "host": [
+                "{{Convert_base_URL}}{{date_to_day}}"
+              ]
+            }
+          },
+          "response": []
+        },
+        {
+          "name": "200 Проверка отправки запроса с задублированным параметром \"date\", но разными валидными датами в них",
+          "event": [
+            {
+              "listen": "test",
+              "script": {
+                "exec": [
+                  "// Проверка статуса\r",
+                  "pm.test(\"Status code is 200\", function () {\r",
+                  "    pm.response.to.have.status(200);\r",
+                  "});\r",
+                  "\r",
+                  "// Проверка корректной даты\r",
+                  "pm.test(\"Response contains correct date\", function () {\r",
+                  "    const response = pm.response.json();\r",
+                  "    pm.expect(response.date).to.eql(\"01.07.1980\");\r",
+                  "});\r",
+                  "\r",
+                  "// Проверка success = true\r",
+                  "pm.test(\"Response contains success = true\", function () {\r",
+                  "    const response = pm.response.json();\r",
+                  "    pm.expect(response.success).to.eql(true);\r",
+                  "});\r",
+                  "\r",
+                  "// Проверка корректного дня недели\r",
+                  "pm.test(\"Response contains correct weekday\", function () {\r",
+                  "    const response = pm.response.json();\r",
+                  "    pm.expect(response.weekday).to.eql(\"вторник\");\r",
+                  "});\r",
+                  "\r",
+                  "// Проверка типов полей\r",
+                  "pm.test(\"Response fields have correct types\", function () {\r",
+                  "    const response = pm.response.json();\r",
+                  "    pm.expect(typeof response.date).to.eql(\"string\");\r",
+                  "    pm.expect(typeof response.success).to.eql(\"boolean\");\r",
+                  "    pm.expect(typeof response.weekday).to.eql(\"string\");\r",
+                  "});"
+                ],
+                "type": "text/javascript",
+                "packages": {},
+                "requests": {}
+              }
+            }
+          ],
+          "request": {
+            "method": "POST",
+            "header": [],
+            "body": {
+              "mode": "raw",
+              "raw": "{\r\n  \"date\": \"15.03.1975\", \r\n  \"date\": \"01.07.1980\"\r\n}",
+              "options": {
+                "raw": {
+                  "language": "json"
+                }
+              }
+            },
+            "url": {
+              "raw": "{{Convert_base_URL}}{{date_to_day}}",
+              "host": [
+                "{{Convert_base_URL}}{{date_to_day}}"
+              ]
+            }
+          },
+          "response": []
+        },
+        {
+          "name": "400 Пустая строка вместо даты",
+          "event": [
+            {
+              "listen": "test",
+              "script": {
+                "exec": [
+                  "// Проверка статуса\r",
+                  "pm.test(\"Status code is 400\", function () {\r",
+                  "    pm.response.to.have.status(400);\r",
+                  "});\r",
+                  "\r",
+                  "// Проверка success = false\r",
+                  "pm.test(\"Response contains success = false\", function () {\r",
+                  "    const response = pm.response.json();\r",
+                  "    pm.expect(response.success).to.eql(false);\r",
+                  "});\r",
+                  "\r",
+                  "// Проверка сообщения об ошибке\r",
+                  "pm.test(\"Response contains correct error message\", function () {\r",
+                  "    const response = pm.response.json();\r",
+                  "    pm.expect(response.error).to.eql(\"Некорректная дата\");\r",
+                  "});\r",
+                  "\r",
+                  "// Проверка типа полей (дополнительно)\r",
+                  "pm.test(\"Response fields have correct types\", function () {\r",
+                  "    const response = pm.response.json();\r",
+                  "    pm.expect(typeof response.error).to.eql(\"string\");\r",
+                  "    pm.expect(typeof response.success).to.eql(\"boolean\");\r",
+                  "});"
+                ],
+                "type": "text/javascript",
+                "packages": {},
+                "requests": {}
+              }
+            }
+          ],
+          "request": {
+            "method": "POST",
+            "header": [],
+            "body": {
+              "mode": "raw",
+              "raw": "{\r\n  \"date\": \"\"\r\n}",
+              "options": {
+                "raw": {
+                  "language": "json"
+                }
+              }
+            },
+            "url": {
+              "raw": "{{Convert_base_URL}}{{date_to_day}}",
+              "host": [
+                "{{Convert_base_URL}}{{date_to_day}}"
+              ]
+            }
+          },
+          "response": []
+        },
+        {
+          "name": "400 Проверка даты с недостаточной длиной: 1 символ",
+          "event": [
+            {
+              "listen": "test",
+              "script": {
+                "exec": [
+                  "// Проверка статуса\r",
+                  "pm.test(\"Status code is 400\", function () {\r",
+                  "    pm.response.to.have.status(400);\r",
+                  "});\r",
+                  "\r",
+                  "// Проверка success = false\r",
+                  "pm.test(\"Response contains success = false\", function () {\r",
+                  "    const response = pm.response.json();\r",
+                  "    pm.expect(response.success).to.eql(false);\r",
+                  "});\r",
+                  "\r",
+                  "// Проверка сообщения об ошибке\r",
+                  "pm.test(\"Response contains correct error message\", function () {\r",
+                  "    const response = pm.response.json();\r",
+                  "    pm.expect(response.error).to.eql(\"Некорректная дата\");\r",
+                  "});\r",
+                  "\r",
+                  "// Проверка типа полей (дополнительно)\r",
+                  "pm.test(\"Response fields have correct types\", function () {\r",
+                  "    const response = pm.response.json();\r",
+                  "    pm.expect(typeof response.error).to.eql(\"string\");\r",
+                  "    pm.expect(typeof response.success).to.eql(\"boolean\");\r",
+                  "});"
+                ],
+                "type": "text/javascript",
+                "packages": {},
+                "requests": {}
+              }
+            }
+          ],
+          "request": {
+            "method": "POST",
+            "header": [],
+            "body": {
+              "mode": "raw",
+              "raw": "{\r\n  \"date\": \"1\"\r\n}",
+              "options": {
+                "raw": {
+                  "language": "json"
+                }
+              }
+            },
+            "url": {
+              "raw": "{{Convert_base_URL}}{{date_to_day}}",
+              "host": [
+                "{{Convert_base_URL}}{{date_to_day}}"
+              ]
+            }
+          },
+          "response": []
+        },
+        {
+          "name": "400 Проверка даты с недостаточной длиной:  5 символов",
+          "event": [
+            {
+              "listen": "test",
+              "script": {
+                "exec": [
+                  "// Проверка статуса\r",
+                  "pm.test(\"Status code is 400\", function () {\r",
+                  "    pm.response.to.have.status(400);\r",
+                  "});\r",
+                  "\r",
+                  "// Проверка success = false\r",
+                  "pm.test(\"Response contains success = false\", function () {\r",
+                  "    const response = pm.response.json();\r",
+                  "    pm.expect(response.success).to.eql(false);\r",
+                  "});\r",
+                  "\r",
+                  "// Проверка сообщения об ошибке\r",
+                  "pm.test(\"Response contains correct error message\", function () {\r",
+                  "    const response = pm.response.json();\r",
+                  "    pm.expect(response.error).to.eql(\"Некорректная дата\");\r",
+                  "});\r",
+                  "\r",
+                  "// Проверка типа полей (дополнительно)\r",
+                  "pm.test(\"Response fields have correct types\", function () {\r",
+                  "    const response = pm.response.json();\r",
+                  "    pm.expect(typeof response.error).to.eql(\"string\");\r",
+                  "    pm.expect(typeof response.success).to.eql(\"boolean\");\r",
+                  "});"
+                ],
+                "type": "text/javascript",
+                "packages": {},
+                "requests": {}
+              }
+            }
+          ],
+          "request": {
+            "method": "POST",
+            "header": [],
+            "body": {
+              "mode": "raw",
+              "raw": "{\r\n  \"date\": \"15.03\"\r\n}",
+              "options": {
+                "raw": {
+                  "language": "json"
+                }
+              }
+            },
+            "url": {
+              "raw": "{{Convert_base_URL}}{{date_to_day}}",
+              "host": [
+                "{{Convert_base_URL}}{{date_to_day}}"
+              ]
+            }
+          },
+          "response": []
+        },
+        {
+          "name": "400 Проверка даты с недостаточной длиной: 8 символов",
+          "event": [
+            {
+              "listen": "test",
+              "script": {
+                "exec": [
+                  "// Проверка статуса\r",
+                  "pm.test(\"Status code is 400\", function () {\r",
+                  "    pm.response.to.have.status(400);\r",
+                  "});\r",
+                  "\r",
+                  "// Проверка success = false\r",
+                  "pm.test(\"Response contains success = false\", function () {\r",
+                  "    const response = pm.response.json();\r",
+                  "    pm.expect(response.success).to.eql(false);\r",
+                  "});\r",
+                  "\r",
+                  "// Проверка сообщения об ошибке\r",
+                  "pm.test(\"Response contains correct error message\", function () {\r",
+                  "    const response = pm.response.json();\r",
+                  "    pm.expect(response.error).to.eql(\"Некорректная дата\");\r",
+                  "});\r",
+                  "\r",
+                  "// Проверка типа полей (дополнительно)\r",
+                  "pm.test(\"Response fields have correct types\", function () {\r",
+                  "    const response = pm.response.json();\r",
+                  "    pm.expect(typeof response.error).to.eql(\"string\");\r",
+                  "    pm.expect(typeof response.success).to.eql(\"boolean\");\r",
+                  "});"
+                ],
+                "type": "text/javascript",
+                "packages": {},
+                "requests": {}
+              }
+            }
+          ],
+          "request": {
+            "method": "POST",
+            "header": [],
+            "body": {
+              "mode": "raw",
+              "raw": "{\r\n  \"date\": \"15.03.19\"\r\n}",
+              "options": {
+                "raw": {
+                  "language": "json"
+                }
+              }
+            },
+            "url": {
+              "raw": "{{Convert_base_URL}}{{date_to_day}}",
+              "host": [
+                "{{Convert_base_URL}}{{date_to_day}}"
+              ]
+            }
+          },
+          "response": []
+        },
+        {
+          "name": "400 Проверка даты с недостаточной длиной: 9 символов",
+          "event": [
+            {
+              "listen": "test",
+              "script": {
+                "exec": [
+                  "// Проверка статуса\r",
+                  "pm.test(\"Status code is 400\", function () {\r",
+                  "    pm.response.to.have.status(400);\r",
+                  "});\r",
+                  "\r",
+                  "// Проверка success = false\r",
+                  "pm.test(\"Response contains success = false\", function () {\r",
+                  "    const response = pm.response.json();\r",
+                  "    pm.expect(response.success).to.eql(false);\r",
+                  "});\r",
+                  "\r",
+                  "// Проверка сообщения об ошибке\r",
+                  "pm.test(\"Response contains correct error message\", function () {\r",
+                  "    const response = pm.response.json();\r",
+                  "    pm.expect(response.error).to.eql(\"Некорректная дата\");\r",
+                  "});\r",
+                  "\r",
+                  "// Проверка типа полей (дополнительно)\r",
+                  "pm.test(\"Response fields have correct types\", function () {\r",
+                  "    const response = pm.response.json();\r",
+                  "    pm.expect(typeof response.error).to.eql(\"string\");\r",
+                  "    pm.expect(typeof response.success).to.eql(\"boolean\");\r",
+                  "});"
+                ],
+                "type": "text/javascript",
+                "packages": {},
+                "requests": {}
+              }
+            }
+          ],
+          "request": {
+            "method": "POST",
+            "header": [],
+            "body": {
+              "mode": "raw",
+              "raw": "{\r\n  \"date\": \"15.03.197\"\r\n}",
+              "options": {
+                "raw": {
+                  "language": "json"
+                }
+              }
+            },
+            "url": {
+              "raw": "{{Convert_base_URL}}{{date_to_day}}",
+              "host": [
+                "{{Convert_base_URL}}{{date_to_day}}"
+              ]
+            }
+          },
+          "response": []
+        },
+        {
+          "name": "400 Проверка даты с избыточной длиной: 11 символов",
+          "event": [
+            {
+              "listen": "test",
+              "script": {
+                "exec": [
+                  "// Проверка статуса\r",
+                  "pm.test(\"Status code is 400\", function () {\r",
+                  "    pm.response.to.have.status(400);\r",
+                  "});\r",
+                  "\r",
+                  "// Проверка success = false\r",
+                  "pm.test(\"Response contains success = false\", function () {\r",
+                  "    const response = pm.response.json();\r",
+                  "    pm.expect(response.success).to.eql(false);\r",
+                  "});\r",
+                  "\r",
+                  "// Проверка сообщения об ошибке\r",
+                  "pm.test(\"Response contains correct error message\", function () {\r",
+                  "    const response = pm.response.json();\r",
+                  "    pm.expect(response.error).to.eql(\"Некорректная дата\");\r",
+                  "});\r",
+                  "\r",
+                  "// Проверка типа полей (дополнительно)\r",
+                  "pm.test(\"Response fields have correct types\", function () {\r",
+                  "    const response = pm.response.json();\r",
+                  "    pm.expect(typeof response.error).to.eql(\"string\");\r",
+                  "    pm.expect(typeof response.success).to.eql(\"boolean\");\r",
+                  "});"
+                ],
+                "type": "text/javascript",
+                "packages": {},
+                "requests": {}
+              }
+            }
+          ],
+          "request": {
+            "method": "POST",
+            "header": [],
+            "body": {
+              "mode": "raw",
+              "raw": "{\r\n  \"date\": \"15.03.19751\"\r\n}",
+              "options": {
+                "raw": {
+                  "language": "json"
+                }
+              }
+            },
+            "url": {
+              "raw": "{{Convert_base_URL}}{{date_to_day}}",
+              "host": [
+                "{{Convert_base_URL}}{{date_to_day}}"
+              ]
+            }
+          },
+          "response": []
+        },
+        {
+          "name": "400 Проверка даты с избыточной длиной: 12 символов",
+          "event": [
+            {
+              "listen": "test",
+              "script": {
+                "exec": [
+                  "// Проверка статуса\r",
+                  "pm.test(\"Status code is 400\", function () {\r",
+                  "    pm.response.to.have.status(400);\r",
+                  "});\r",
+                  "\r",
+                  "// Проверка success = false\r",
+                  "pm.test(\"Response contains success = false\", function () {\r",
+                  "    const response = pm.response.json();\r",
+                  "    pm.expect(response.success).to.eql(false);\r",
+                  "});\r",
+                  "\r",
+                  "// Проверка сообщения об ошибке\r",
+                  "pm.test(\"Response contains correct error message\", function () {\r",
+                  "    const response = pm.response.json();\r",
+                  "    pm.expect(response.error).to.eql(\"Некорректная дата\");\r",
+                  "});\r",
+                  "\r",
+                  "// Проверка типа полей (дополнительно)\r",
+                  "pm.test(\"Response fields have correct types\", function () {\r",
+                  "    const response = pm.response.json();\r",
+                  "    pm.expect(typeof response.error).to.eql(\"string\");\r",
+                  "    pm.expect(typeof response.success).to.eql(\"boolean\");\r",
+                  "});"
+                ],
+                "type": "text/javascript",
+                "packages": {},
+                "requests": {}
+              }
+            }
+          ],
+          "request": {
+            "method": "POST",
+            "header": [],
+            "body": {
+              "mode": "raw",
+              "raw": "{\r\n  \"date\": \"15.03.197512\"\r\n}",
+              "options": {
+                "raw": {
+                  "language": "json"
+                }
+              }
+            },
+            "url": {
+              "raw": "{{Convert_base_URL}}{{date_to_day}}",
+              "host": [
+                "{{Convert_base_URL}}{{date_to_day}}"
+              ]
+            }
+          },
+          "response": []
+        },
+        {
+          "name": "400 Проверка даты с избыточной длиной: 45 символов",
+          "event": [
+            {
+              "listen": "test",
+              "script": {
+                "exec": [
+                  "// Проверка статуса\r",
+                  "pm.test(\"Status code is 400\", function () {\r",
+                  "    pm.response.to.have.status(400);\r",
+                  "});\r",
+                  "\r",
+                  "// Проверка success = false\r",
+                  "pm.test(\"Response contains success = false\", function () {\r",
+                  "    const response = pm.response.json();\r",
+                  "    pm.expect(response.success).to.eql(false);\r",
+                  "});\r",
+                  "\r",
+                  "// Проверка сообщения об ошибке\r",
+                  "pm.test(\"Response contains correct error message\", function () {\r",
+                  "    const response = pm.response.json();\r",
+                  "    pm.expect(response.error).to.eql(\"Некорректная дата\");\r",
+                  "});\r",
+                  "\r",
+                  "// Проверка типа полей (дополнительно)\r",
+                  "pm.test(\"Response fields have correct types\", function () {\r",
+                  "    const response = pm.response.json();\r",
+                  "    pm.expect(typeof response.error).to.eql(\"string\");\r",
+                  "    pm.expect(typeof response.success).to.eql(\"boolean\");\r",
+                  "});"
+                ],
+                "type": "text/javascript",
+                "packages": {},
+                "requests": {}
+              }
+            }
+          ],
+          "request": {
+            "method": "POST",
+            "header": [],
+            "body": {
+              "mode": "raw",
+              "raw": "{\r\n  \"date\": \"15.03.197515.03.197515.03.197515.03.197515.03\"\r\n}",
+              "options": {
+                "raw": {
+                  "language": "json"
+                }
+              }
+            },
+            "url": {
+              "raw": "{{Convert_base_URL}}{{date_to_day}}",
+              "host": [
+                "{{Convert_base_URL}}{{date_to_day}}"
+              ]
+            }
+          },
+          "response": []
+        },
+        {
+          "name": "400 Проверка даты без точек",
+          "event": [
+            {
+              "listen": "test",
+              "script": {
+                "exec": [
+                  "// Проверка статуса\r",
+                  "pm.test(\"Status code is 400\", function () {\r",
+                  "    pm.response.to.have.status(400);\r",
+                  "});\r",
+                  "\r",
+                  "// Проверка success = false\r",
+                  "pm.test(\"Response contains success = false\", function () {\r",
+                  "    const response = pm.response.json();\r",
+                  "    pm.expect(response.success).to.eql(false);\r",
+                  "});\r",
+                  "\r",
+                  "// Проверка сообщения об ошибке\r",
+                  "pm.test(\"Response contains correct error message\", function () {\r",
+                  "    const response = pm.response.json();\r",
+                  "    pm.expect(response.error).to.eql(\"Некорректная дата\");\r",
+                  "});\r",
+                  "\r",
+                  "// Проверка типа полей (дополнительно)\r",
+                  "pm.test(\"Response fields have correct types\", function () {\r",
+                  "    const response = pm.response.json();\r",
+                  "    pm.expect(typeof response.error).to.eql(\"string\");\r",
+                  "    pm.expect(typeof response.success).to.eql(\"boolean\");\r",
+                  "});"
+                ],
+                "type": "text/javascript",
+                "packages": {},
+                "requests": {}
+              }
+            }
+          ],
+          "request": {
+            "method": "POST",
+            "header": [],
+            "body": {
+              "mode": "raw",
+              "raw": "{\r\n  \"date\": \"15031975\"\r\n}",
+              "options": {
+                "raw": {
+                  "language": "json"
+                }
+              }
+            },
+            "url": {
+              "raw": "{{Convert_base_URL}}{{date_to_day}}",
+              "host": [
+                "{{Convert_base_URL}}{{date_to_day}}"
+              ]
+            }
+          },
+          "response": []
+        },
+        {
+          "name": "400 Проверка даты с одной точкой",
+          "event": [
+            {
+              "listen": "test",
+              "script": {
+                "exec": [
+                  "// Проверка статуса\r",
+                  "pm.test(\"Status code is 400\", function () {\r",
+                  "    pm.response.to.have.status(400);\r",
+                  "});\r",
+                  "\r",
+                  "// Проверка success = false\r",
+                  "pm.test(\"Response contains success = false\", function () {\r",
+                  "    const response = pm.response.json();\r",
+                  "    pm.expect(response.success).to.eql(false);\r",
+                  "});\r",
+                  "\r",
+                  "// Проверка сообщения об ошибке\r",
+                  "pm.test(\"Response contains correct error message\", function () {\r",
+                  "    const response = pm.response.json();\r",
+                  "    pm.expect(response.error).to.eql(\"Некорректная дата\");\r",
+                  "});\r",
+                  "\r",
+                  "// Проверка типа полей (дополнительно)\r",
+                  "pm.test(\"Response fields have correct types\", function () {\r",
+                  "    const response = pm.response.json();\r",
+                  "    pm.expect(typeof response.error).to.eql(\"string\");\r",
+                  "    pm.expect(typeof response.success).to.eql(\"boolean\");\r",
+                  "});"
+                ],
+                "type": "text/javascript",
+                "packages": {},
+                "requests": {}
+              }
+            }
+          ],
+          "request": {
+            "method": "POST",
+            "header": [],
+            "body": {
+              "mode": "raw",
+              "raw": "{\r\n  \"date\": \"15.031975\"\r\n}",
+              "options": {
+                "raw": {
+                  "language": "json"
+                }
+              }
+            },
+            "url": {
+              "raw": "{{Convert_base_URL}}{{date_to_day}}",
+              "host": [
+                "{{Convert_base_URL}}{{date_to_day}}"
+              ]
+            }
+          },
+          "response": []
+        },
+        {
+          "name": "400 Проверка даты с тремя точками",
+          "event": [
+            {
+              "listen": "test",
+              "script": {
+                "exec": [
+                  "// Проверка статуса\r",
+                  "pm.test(\"Status code is 400\", function () {\r",
+                  "    pm.response.to.have.status(400);\r",
+                  "});\r",
+                  "\r",
+                  "// Проверка success = false\r",
+                  "pm.test(\"Response contains success = false\", function () {\r",
+                  "    const response = pm.response.json();\r",
+                  "    pm.expect(response.success).to.eql(false);\r",
+                  "});\r",
+                  "\r",
+                  "// Проверка сообщения об ошибке\r",
+                  "pm.test(\"Response contains correct error message\", function () {\r",
+                  "    const response = pm.response.json();\r",
+                  "    pm.expect(response.error).to.eql(\"Некорректная дата\");\r",
+                  "});\r",
+                  "\r",
+                  "// Проверка типа полей (дополнительно)\r",
+                  "pm.test(\"Response fields have correct types\", function () {\r",
+                  "    const response = pm.response.json();\r",
+                  "    pm.expect(typeof response.error).to.eql(\"string\");\r",
+                  "    pm.expect(typeof response.success).to.eql(\"boolean\");\r",
+                  "});"
+                ],
+                "type": "text/javascript",
+                "packages": {},
+                "requests": {}
+              }
+            }
+          ],
+          "request": {
+            "method": "POST",
+            "header": [],
+            "body": {
+              "mode": "raw",
+              "raw": "{\r\n  \"date\": \"15.03.19.75\"\r\n}",
+              "options": {
+                "raw": {
+                  "language": "json"
+                }
+              }
+            },
+            "url": {
+              "raw": "{{Convert_base_URL}}{{date_to_day}}",
+              "host": [
+                "{{Convert_base_URL}}{{date_to_day}}"
+              ]
+            }
+          },
+          "response": []
+        },
+        {
+          "name": "400 Проверка даты с двумя точками подряд",
+          "event": [
+            {
+              "listen": "test",
+              "script": {
+                "exec": [
+                  "// Проверка статуса\r",
+                  "pm.test(\"Status code is 400\", function () {\r",
+                  "    pm.response.to.have.status(400);\r",
+                  "});\r",
+                  "\r",
+                  "// Проверка success = false\r",
+                  "pm.test(\"Response contains success = false\", function () {\r",
+                  "    const response = pm.response.json();\r",
+                  "    pm.expect(response.success).to.eql(false);\r",
+                  "});\r",
+                  "\r",
+                  "// Проверка сообщения об ошибке\r",
+                  "pm.test(\"Response contains correct error message\", function () {\r",
+                  "    const response = pm.response.json();\r",
+                  "    pm.expect(response.error).to.eql(\"Некорректная дата\");\r",
+                  "});\r",
+                  "\r",
+                  "// Проверка типа полей (дополнительно)\r",
+                  "pm.test(\"Response fields have correct types\", function () {\r",
+                  "    const response = pm.response.json();\r",
+                  "    pm.expect(typeof response.error).to.eql(\"string\");\r",
+                  "    pm.expect(typeof response.success).to.eql(\"boolean\");\r",
+                  "});"
+                ],
+                "type": "text/javascript",
+                "packages": {},
+                "requests": {}
+              }
+            }
+          ],
+          "request": {
+            "method": "POST",
+            "header": [],
+            "body": {
+              "mode": "raw",
+              "raw": "{\r\n  \"date\": \"15.03..975\"\r\n}",
+              "options": {
+                "raw": {
+                  "language": "json"
+                }
+              }
+            },
+            "url": {
+              "raw": "{{Convert_base_URL}}{{date_to_day}}",
+              "host": [
+                "{{Convert_base_URL}}{{date_to_day}}"
+              ]
+            }
+          },
+          "response": []
+        },
+        {
+          "name": "400 Проверка даты с точками,  смещенными влево на одну цифру",
+          "event": [
+            {
+              "listen": "test",
+              "script": {
+                "exec": [
+                  "// Проверка статуса\r",
+                  "pm.test(\"Status code is 400\", function () {\r",
+                  "    pm.response.to.have.status(400);\r",
+                  "});\r",
+                  "\r",
+                  "// Проверка success = false\r",
+                  "pm.test(\"Response contains success = false\", function () {\r",
+                  "    const response = pm.response.json();\r",
+                  "    pm.expect(response.success).to.eql(false);\r",
+                  "});\r",
+                  "\r",
+                  "// Проверка сообщения об ошибке\r",
+                  "pm.test(\"Response contains correct error message\", function () {\r",
+                  "    const response = pm.response.json();\r",
+                  "    pm.expect(response.error).to.eql(\"Некорректная дата\");\r",
+                  "});\r",
+                  "\r",
+                  "// Проверка типа полей (дополнительно)\r",
+                  "pm.test(\"Response fields have correct types\", function () {\r",
+                  "    const response = pm.response.json();\r",
+                  "    pm.expect(typeof response.error).to.eql(\"string\");\r",
+                  "    pm.expect(typeof response.success).to.eql(\"boolean\");\r",
+                  "});"
+                ],
+                "type": "text/javascript",
+                "packages": {},
+                "requests": {}
+              }
+            }
+          ],
+          "request": {
+            "method": "POST",
+            "header": [],
+            "body": {
+              "mode": "raw",
+              "raw": "{\r\n  \"date\": \"1.50.31975\"\r\n}",
+              "options": {
+                "raw": {
+                  "language": "json"
+                }
+              }
+            },
+            "url": {
+              "raw": "{{Convert_base_URL}}{{date_to_day}}",
+              "host": [
+                "{{Convert_base_URL}}{{date_to_day}}"
+              ]
+            }
+          },
+          "response": []
+        },
+        {
+          "name": "400 Проверка даты с точками,  смещенными вправо на одну цифру",
+          "event": [
+            {
+              "listen": "test",
+              "script": {
+                "exec": [
+                  "// Проверка статуса\r",
+                  "pm.test(\"Status code is 400\", function () {\r",
+                  "    pm.response.to.have.status(400);\r",
+                  "});\r",
+                  "\r",
+                  "// Проверка success = false\r",
+                  "pm.test(\"Response contains success = false\", function () {\r",
+                  "    const response = pm.response.json();\r",
+                  "    pm.expect(response.success).to.eql(false);\r",
+                  "});\r",
+                  "\r",
+                  "// Проверка сообщения об ошибке\r",
+                  "pm.test(\"Response contains correct error message\", function () {\r",
+                  "    const response = pm.response.json();\r",
+                  "    pm.expect(response.error).to.eql(\"Некорректная дата\");\r",
+                  "});\r",
+                  "\r",
+                  "// Проверка типа полей (дополнительно)\r",
+                  "pm.test(\"Response fields have correct types\", function () {\r",
+                  "    const response = pm.response.json();\r",
+                  "    pm.expect(typeof response.error).to.eql(\"string\");\r",
+                  "    pm.expect(typeof response.success).to.eql(\"boolean\");\r",
+                  "});"
+                ],
+                "type": "text/javascript",
+                "packages": {},
+                "requests": {}
+              }
+            }
+          ],
+          "request": {
+            "method": "POST",
+            "header": [],
+            "body": {
+              "mode": "raw",
+              "raw": "{\r\n  \"date\": \"150.31.975\"\r\n}",
+              "options": {
+                "raw": {
+                  "language": "json"
+                }
+              }
+            },
+            "url": {
+              "raw": "{{Convert_base_URL}}{{date_to_day}}",
+              "host": [
+                "{{Convert_base_URL}}{{date_to_day}}"
+              ]
+            }
+          },
+          "response": []
+        },
+        {
+          "name": "400 Проверка ввода строки из точек вместо даты",
+          "event": [
+            {
+              "listen": "test",
+              "script": {
+                "exec": [
+                  "// Проверка статуса\r",
+                  "pm.test(\"Status code is 400\", function () {\r",
+                  "    pm.response.to.have.status(400);\r",
+                  "});\r",
+                  "\r",
+                  "// Проверка success = false\r",
+                  "pm.test(\"Response contains success = false\", function () {\r",
+                  "    const response = pm.response.json();\r",
+                  "    pm.expect(response.success).to.eql(false);\r",
+                  "});\r",
+                  "\r",
+                  "// Проверка сообщения об ошибке\r",
+                  "pm.test(\"Response contains correct error message\", function () {\r",
+                  "    const response = pm.response.json();\r",
+                  "    pm.expect(response.error).to.eql(\"Некорректная дата\");\r",
+                  "});\r",
+                  "\r",
+                  "// Проверка типа полей (дополнительно)\r",
+                  "pm.test(\"Response fields have correct types\", function () {\r",
+                  "    const response = pm.response.json();\r",
+                  "    pm.expect(typeof response.error).to.eql(\"string\");\r",
+                  "    pm.expect(typeof response.success).to.eql(\"boolean\");\r",
+                  "});"
+                ],
+                "type": "text/javascript",
+                "packages": {},
+                "requests": {}
+              }
+            }
+          ],
+          "request": {
+            "method": "POST",
+            "header": [],
+            "body": {
+              "mode": "raw",
+              "raw": "{\r\n  \"date\": \"..........\"\r\n}",
+              "options": {
+                "raw": {
+                  "language": "json"
+                }
+              }
+            },
+            "url": {
+              "raw": "{{Convert_base_URL}}{{date_to_day}}",
+              "host": [
+                "{{Convert_base_URL}}{{date_to_day}}"
+              ]
+            }
+          },
+          "response": []
+        },
+        {
+          "name": "400 Проверка ввода букв в начале даты",
+          "event": [
+            {
+              "listen": "test",
+              "script": {
+                "exec": [
+                  "// Проверка статуса\r",
+                  "pm.test(\"Status code is 400\", function () {\r",
+                  "    pm.response.to.have.status(400);\r",
+                  "});\r",
+                  "\r",
+                  "// Проверка success = false\r",
+                  "pm.test(\"Response contains success = false\", function () {\r",
+                  "    const response = pm.response.json();\r",
+                  "    pm.expect(response.success).to.eql(false);\r",
+                  "});\r",
+                  "\r",
+                  "// Проверка сообщения об ошибке\r",
+                  "pm.test(\"Response contains correct error message\", function () {\r",
+                  "    const response = pm.response.json();\r",
+                  "    pm.expect(response.error).to.eql(\"Некорректная дата\");\r",
+                  "});\r",
+                  "\r",
+                  "// Проверка типа полей (дополнительно)\r",
+                  "pm.test(\"Response fields have correct types\", function () {\r",
+                  "    const response = pm.response.json();\r",
+                  "    pm.expect(typeof response.error).to.eql(\"string\");\r",
+                  "    pm.expect(typeof response.success).to.eql(\"boolean\");\r",
+                  "});"
+                ],
+                "type": "text/javascript",
+                "packages": {},
+                "requests": {}
+              }
+            }
+          ],
+          "request": {
+            "method": "POST",
+            "header": [],
+            "body": {
+              "mode": "raw",
+              "raw": "{\r\n  \"date\": \"фы.03.1975\"\r\n}",
+              "options": {
+                "raw": {
+                  "language": "json"
+                }
+              }
+            },
+            "url": {
+              "raw": "{{Convert_base_URL}}{{date_to_day}}",
+              "host": [
+                "{{Convert_base_URL}}{{date_to_day}}"
+              ]
+            }
+          },
+          "response": []
+        },
+        {
+          "name": "400 Проверка ввода букв в середине даты",
+          "event": [
+            {
+              "listen": "test",
+              "script": {
+                "exec": [
+                  "// Проверка статуса\r",
+                  "pm.test(\"Status code is 400\", function () {\r",
+                  "    pm.response.to.have.status(400);\r",
+                  "});\r",
+                  "\r",
+                  "// Проверка success = false\r",
+                  "pm.test(\"Response contains success = false\", function () {\r",
+                  "    const response = pm.response.json();\r",
+                  "    pm.expect(response.success).to.eql(false);\r",
+                  "});\r",
+                  "\r",
+                  "// Проверка сообщения об ошибке\r",
+                  "pm.test(\"Response contains correct error message\", function () {\r",
+                  "    const response = pm.response.json();\r",
+                  "    pm.expect(response.error).to.eql(\"Некорректная дата\");\r",
+                  "});\r",
+                  "\r",
+                  "// Проверка типа полей (дополнительно)\r",
+                  "pm.test(\"Response fields have correct types\", function () {\r",
+                  "    const response = pm.response.json();\r",
+                  "    pm.expect(typeof response.error).to.eql(\"string\");\r",
+                  "    pm.expect(typeof response.success).to.eql(\"boolean\");\r",
+                  "});"
+                ],
+                "type": "text/javascript",
+                "packages": {},
+                "requests": {}
+              }
+            }
+          ],
+          "request": {
+            "method": "POST",
+            "header": [],
+            "body": {
+              "mode": "raw",
+              "raw": "{\r\n  \"date\": \"15.фы.1975\"\r\n}",
+              "options": {
+                "raw": {
+                  "language": "json"
+                }
+              }
+            },
+            "url": {
+              "raw": "{{Convert_base_URL}}{{date_to_day}}",
+              "host": [
+                "{{Convert_base_URL}}{{date_to_day}}"
+              ]
+            }
+          },
+          "response": []
+        },
+        {
+          "name": "400 Проверка ввода букв в конце даты",
+          "event": [
+            {
+              "listen": "test",
+              "script": {
+                "exec": [
+                  "// Проверка статуса\r",
+                  "pm.test(\"Status code is 400\", function () {\r",
+                  "    pm.response.to.have.status(400);\r",
+                  "});\r",
+                  "\r",
+                  "// Проверка success = false\r",
+                  "pm.test(\"Response contains success = false\", function () {\r",
+                  "    const response = pm.response.json();\r",
+                  "    pm.expect(response.success).to.eql(false);\r",
+                  "});\r",
+                  "\r",
+                  "// Проверка сообщения об ошибке\r",
+                  "pm.test(\"Response contains correct error message\", function () {\r",
+                  "    const response = pm.response.json();\r",
+                  "    pm.expect(response.error).to.eql(\"Некорректная дата\");\r",
+                  "});\r",
+                  "\r",
+                  "// Проверка типа полей (дополнительно)\r",
+                  "pm.test(\"Response fields have correct types\", function () {\r",
+                  "    const response = pm.response.json();\r",
+                  "    pm.expect(typeof response.error).to.eql(\"string\");\r",
+                  "    pm.expect(typeof response.success).to.eql(\"boolean\");\r",
+                  "});"
+                ],
+                "type": "text/javascript",
+                "packages": {},
+                "requests": {}
+              }
+            }
+          ],
+          "request": {
+            "method": "POST",
+            "header": [],
+            "body": {
+              "mode": "raw",
+              "raw": "{\r\n  \"date\": \"15.03.19фы\"\r\n}",
+              "options": {
+                "raw": {
+                  "language": "json"
+                }
+              }
+            },
+            "url": {
+              "raw": "{{Convert_base_URL}}{{date_to_day}}",
+              "host": [
+                "{{Convert_base_URL}}{{date_to_day}}"
+              ]
+            }
+          },
+          "response": []
+        },
+        {
+          "name": "400 Проверка ввода букв вместо даты",
+          "event": [
+            {
+              "listen": "test",
+              "script": {
+                "exec": [
+                  "// Проверка статуса\r",
+                  "pm.test(\"Status code is 400\", function () {\r",
+                  "    pm.response.to.have.status(400);\r",
+                  "});\r",
+                  "\r",
+                  "// Проверка success = false\r",
+                  "pm.test(\"Response contains success = false\", function () {\r",
+                  "    const response = pm.response.json();\r",
+                  "    pm.expect(response.success).to.eql(false);\r",
+                  "});\r",
+                  "\r",
+                  "// Проверка сообщения об ошибке\r",
+                  "pm.test(\"Response contains correct error message\", function () {\r",
+                  "    const response = pm.response.json();\r",
+                  "    pm.expect(response.error).to.eql(\"Некорректная дата\");\r",
+                  "});\r",
+                  "\r",
+                  "// Проверка типа полей (дополнительно)\r",
+                  "pm.test(\"Response fields have correct types\", function () {\r",
+                  "    const response = pm.response.json();\r",
+                  "    pm.expect(typeof response.error).to.eql(\"string\");\r",
+                  "    pm.expect(typeof response.success).to.eql(\"boolean\");\r",
+                  "});"
+                ],
+                "type": "text/javascript",
+                "packages": {},
+                "requests": {}
+              }
+            }
+          ],
+          "request": {
+            "method": "POST",
+            "header": [],
+            "body": {
+              "mode": "raw",
+              "raw": "{\r\n  \"date\": \"фы.ва.прол\"\r\n}",
+              "options": {
+                "raw": {
+                  "language": "json"
+                }
+              }
+            },
+            "url": {
+              "raw": "{{Convert_base_URL}}{{date_to_day}}",
+              "host": [
+                "{{Convert_base_URL}}{{date_to_day}}"
+              ]
+            }
+          },
+          "response": []
+        },
+        {
+          "name": "400 Проверка ввода спец. символов в начале даты",
+          "event": [
+            {
+              "listen": "test",
+              "script": {
+                "exec": [
+                  "// Проверка статуса\r",
+                  "pm.test(\"Status code is 400\", function () {\r",
+                  "    pm.response.to.have.status(400);\r",
+                  "});\r",
+                  "\r",
+                  "// Проверка success = false\r",
+                  "pm.test(\"Response contains success = false\", function () {\r",
+                  "    const response = pm.response.json();\r",
+                  "    pm.expect(response.success).to.eql(false);\r",
+                  "});\r",
+                  "\r",
+                  "// Проверка сообщения об ошибке\r",
+                  "pm.test(\"Response contains correct error message\", function () {\r",
+                  "    const response = pm.response.json();\r",
+                  "    pm.expect(response.error).to.eql(\"Некорректная дата\");\r",
+                  "});\r",
+                  "\r",
+                  "// Проверка типа полей (дополнительно)\r",
+                  "pm.test(\"Response fields have correct types\", function () {\r",
+                  "    const response = pm.response.json();\r",
+                  "    pm.expect(typeof response.error).to.eql(\"string\");\r",
+                  "    pm.expect(typeof response.success).to.eql(\"boolean\");\r",
+                  "});"
+                ],
+                "type": "text/javascript",
+                "packages": {},
+                "requests": {}
+              }
+            }
+          ],
+          "request": {
+            "method": "POST",
+            "header": [],
+            "body": {
+              "mode": "raw",
+              "raw": "{\r\n  \"date\": \"%?.03.1975\"\r\n}",
+              "options": {
+                "raw": {
+                  "language": "json"
+                }
+              }
+            },
+            "url": {
+              "raw": "{{Convert_base_URL}}{{date_to_day}}",
+              "host": [
+                "{{Convert_base_URL}}{{date_to_day}}"
+              ]
+            }
+          },
+          "response": []
+        },
+        {
+          "name": "400 Проверка ввода спец. символов в середине даты",
+          "event": [
+            {
+              "listen": "test",
+              "script": {
+                "exec": [
+                  "// Проверка статуса\r",
+                  "pm.test(\"Status code is 400\", function () {\r",
+                  "    pm.response.to.have.status(400);\r",
+                  "});\r",
+                  "\r",
+                  "// Проверка success = false\r",
+                  "pm.test(\"Response contains success = false\", function () {\r",
+                  "    const response = pm.response.json();\r",
+                  "    pm.expect(response.success).to.eql(false);\r",
+                  "});\r",
+                  "\r",
+                  "// Проверка сообщения об ошибке\r",
+                  "pm.test(\"Response contains correct error message\", function () {\r",
+                  "    const response = pm.response.json();\r",
+                  "    pm.expect(response.error).to.eql(\"Некорректная дата\");\r",
+                  "});\r",
+                  "\r",
+                  "// Проверка типа полей (дополнительно)\r",
+                  "pm.test(\"Response fields have correct types\", function () {\r",
+                  "    const response = pm.response.json();\r",
+                  "    pm.expect(typeof response.error).to.eql(\"string\");\r",
+                  "    pm.expect(typeof response.success).to.eql(\"boolean\");\r",
+                  "});"
+                ],
+                "type": "text/javascript",
+                "packages": {},
+                "requests": {}
+              }
+            }
+          ],
+          "request": {
+            "method": "POST",
+            "header": [],
+            "body": {
+              "mode": "raw",
+              "raw": "{\r\n  \"date\": \"15.%?.1975\"\r\n}",
+              "options": {
+                "raw": {
+                  "language": "json"
+                }
+              }
+            },
+            "url": {
+              "raw": "{{Convert_base_URL}}{{date_to_day}}",
+              "host": [
+                "{{Convert_base_URL}}{{date_to_day}}"
+              ]
+            }
+          },
+          "response": []
+        },
+        {
+          "name": "400 Проверка ввода спец. символов в конце даты",
+          "event": [
+            {
+              "listen": "test",
+              "script": {
+                "exec": [
+                  "// Проверка статуса\r",
+                  "pm.test(\"Status code is 400\", function () {\r",
+                  "    pm.response.to.have.status(400);\r",
+                  "});\r",
+                  "\r",
+                  "// Проверка success = false\r",
+                  "pm.test(\"Response contains success = false\", function () {\r",
+                  "    const response = pm.response.json();\r",
+                  "    pm.expect(response.success).to.eql(false);\r",
+                  "});\r",
+                  "\r",
+                  "// Проверка сообщения об ошибке\r",
+                  "pm.test(\"Response contains correct error message\", function () {\r",
+                  "    const response = pm.response.json();\r",
+                  "    pm.expect(response.error).to.eql(\"Некорректная дата\");\r",
+                  "});\r",
+                  "\r",
+                  "// Проверка типа полей (дополнительно)\r",
+                  "pm.test(\"Response fields have correct types\", function () {\r",
+                  "    const response = pm.response.json();\r",
+                  "    pm.expect(typeof response.error).to.eql(\"string\");\r",
+                  "    pm.expect(typeof response.success).to.eql(\"boolean\");\r",
+                  "});"
+                ],
+                "type": "text/javascript",
+                "packages": {},
+                "requests": {}
+              }
+            }
+          ],
+          "request": {
+            "method": "POST",
+            "header": [],
+            "body": {
+              "mode": "raw",
+              "raw": "{\r\n  \"date\": \"15.03.19%?\"\r\n}",
+              "options": {
+                "raw": {
+                  "language": "json"
+                }
+              }
+            },
+            "url": {
+              "raw": "{{Convert_base_URL}}{{date_to_day}}",
+              "host": [
+                "{{Convert_base_URL}}{{date_to_day}}"
+              ]
+            }
+          },
+          "response": []
+        },
+        {
+          "name": "400 Проверка ввода спец. символов вместо даты",
+          "event": [
+            {
+              "listen": "test",
+              "script": {
+                "exec": [
+                  "// Проверка статуса\r",
+                  "pm.test(\"Status code is 400\", function () {\r",
+                  "    pm.response.to.have.status(400);\r",
+                  "});\r",
+                  "\r",
+                  "// Проверка success = false\r",
+                  "pm.test(\"Response contains success = false\", function () {\r",
+                  "    const response = pm.response.json();\r",
+                  "    pm.expect(response.success).to.eql(false);\r",
+                  "});\r",
+                  "\r",
+                  "// Проверка сообщения об ошибке\r",
+                  "pm.test(\"Response contains correct error message\", function () {\r",
+                  "    const response = pm.response.json();\r",
+                  "    pm.expect(response.error).to.eql(\"Некорректная дата\");\r",
+                  "});\r",
+                  "\r",
+                  "// Проверка типа полей (дополнительно)\r",
+                  "pm.test(\"Response fields have correct types\", function () {\r",
+                  "    const response = pm.response.json();\r",
+                  "    pm.expect(typeof response.error).to.eql(\"string\");\r",
+                  "    pm.expect(typeof response.success).to.eql(\"boolean\");\r",
+                  "});"
+                ],
+                "type": "text/javascript",
+                "packages": {},
+                "requests": {}
+              }
+            }
+          ],
+          "request": {
+            "method": "POST",
+            "header": [],
+            "body": {
+              "mode": "raw",
+              "raw": "{\r\n  \"date\": \"!№.%*.()%?\"\r\n}",
+              "options": {
+                "raw": {
+                  "language": "json"
+                }
+              }
+            },
+            "url": {
+              "raw": "{{Convert_base_URL}}{{date_to_day}}",
+              "host": [
+                "{{Convert_base_URL}}{{date_to_day}}"
+              ]
+            }
+          },
+          "response": []
+        },
+        {
+          "name": "400 Проверка ввода пробелов в начале даты",
+          "event": [
+            {
+              "listen": "test",
+              "script": {
+                "exec": [
+                  "// Проверка статуса\r",
+                  "pm.test(\"Status code is 400\", function () {\r",
+                  "    pm.response.to.have.status(400);\r",
+                  "});\r",
+                  "\r",
+                  "// Проверка success = false\r",
+                  "pm.test(\"Response contains success = false\", function () {\r",
+                  "    const response = pm.response.json();\r",
+                  "    pm.expect(response.success).to.eql(false);\r",
+                  "});\r",
+                  "\r",
+                  "// Проверка сообщения об ошибке\r",
+                  "pm.test(\"Response contains correct error message\", function () {\r",
+                  "    const response = pm.response.json();\r",
+                  "    pm.expect(response.error).to.eql(\"Некорректная дата\");\r",
+                  "});\r",
+                  "\r",
+                  "// Проверка типа полей (дополнительно)\r",
+                  "pm.test(\"Response fields have correct types\", function () {\r",
+                  "    const response = pm.response.json();\r",
+                  "    pm.expect(typeof response.error).to.eql(\"string\");\r",
+                  "    pm.expect(typeof response.success).to.eql(\"boolean\");\r",
+                  "});"
+                ],
+                "type": "text/javascript",
+                "packages": {},
+                "requests": {}
+              }
+            }
+          ],
+          "request": {
+            "method": "POST",
+            "header": [],
+            "body": {
+              "mode": "raw",
+              "raw": "{\r\n  \"date\": \"  .03.1975\"\r\n}",
+              "options": {
+                "raw": {
+                  "language": "json"
+                }
+              }
+            },
+            "url": {
+              "raw": "{{Convert_base_URL}}{{date_to_day}}",
+              "host": [
+                "{{Convert_base_URL}}{{date_to_day}}"
+              ]
+            }
+          },
+          "response": []
+        },
+        {
+          "name": "400 Проверка ввода пробелов в середине даты",
+          "event": [
+            {
+              "listen": "test",
+              "script": {
+                "exec": [
+                  "// Проверка статуса\r",
+                  "pm.test(\"Status code is 400\", function () {\r",
+                  "    pm.response.to.have.status(400);\r",
+                  "});\r",
+                  "\r",
+                  "// Проверка success = false\r",
+                  "pm.test(\"Response contains success = false\", function () {\r",
+                  "    const response = pm.response.json();\r",
+                  "    pm.expect(response.success).to.eql(false);\r",
+                  "});\r",
+                  "\r",
+                  "// Проверка сообщения об ошибке\r",
+                  "pm.test(\"Response contains correct error message\", function () {\r",
+                  "    const response = pm.response.json();\r",
+                  "    pm.expect(response.error).to.eql(\"Некорректная дата\");\r",
+                  "});\r",
+                  "\r",
+                  "// Проверка типа полей (дополнительно)\r",
+                  "pm.test(\"Response fields have correct types\", function () {\r",
+                  "    const response = pm.response.json();\r",
+                  "    pm.expect(typeof response.error).to.eql(\"string\");\r",
+                  "    pm.expect(typeof response.success).to.eql(\"boolean\");\r",
+                  "});"
+                ],
+                "type": "text/javascript",
+                "packages": {},
+                "requests": {}
+              }
+            }
+          ],
+          "request": {
+            "method": "POST",
+            "header": [],
+            "body": {
+              "mode": "raw",
+              "raw": "{\r\n  \"date\": \"15.  .1975\"\r\n}",
+              "options": {
+                "raw": {
+                  "language": "json"
+                }
+              }
+            },
+            "url": {
+              "raw": "{{Convert_base_URL}}{{date_to_day}}",
+              "host": [
+                "{{Convert_base_URL}}{{date_to_day}}"
+              ]
+            }
+          },
+          "response": []
+        },
+        {
+          "name": "400 Проверка ввода пробелов в конце даты",
+          "event": [
+            {
+              "listen": "test",
+              "script": {
+                "exec": [
+                  "// Проверка статуса\r",
+                  "pm.test(\"Status code is 400\", function () {\r",
+                  "    pm.response.to.have.status(400);\r",
+                  "});\r",
+                  "\r",
+                  "// Проверка success = false\r",
+                  "pm.test(\"Response contains success = false\", function () {\r",
+                  "    const response = pm.response.json();\r",
+                  "    pm.expect(response.success).to.eql(false);\r",
+                  "});\r",
+                  "\r",
+                  "// Проверка сообщения об ошибке\r",
+                  "pm.test(\"Response contains correct error message\", function () {\r",
+                  "    const response = pm.response.json();\r",
+                  "    pm.expect(response.error).to.eql(\"Некорректная дата\");\r",
+                  "});\r",
+                  "\r",
+                  "// Проверка типа полей (дополнительно)\r",
+                  "pm.test(\"Response fields have correct types\", function () {\r",
+                  "    const response = pm.response.json();\r",
+                  "    pm.expect(typeof response.error).to.eql(\"string\");\r",
+                  "    pm.expect(typeof response.success).to.eql(\"boolean\");\r",
+                  "});"
+                ],
+                "type": "text/javascript",
+                "packages": {},
+                "requests": {}
+              }
+            }
+          ],
+          "request": {
+            "method": "POST",
+            "header": [],
+            "body": {
+              "mode": "raw",
+              "raw": "{\r\n  \"date\": \"15.03.19  \"\r\n}",
+              "options": {
+                "raw": {
+                  "language": "json"
+                }
+              }
+            },
+            "url": {
+              "raw": "{{Convert_base_URL}}{{date_to_day}}",
+              "host": [
+                "{{Convert_base_URL}}{{date_to_day}}"
+              ]
+            }
+          },
+          "response": []
+        },
+        {
+          "name": "400 Проверка ввода пробелов вместо даты",
+          "event": [
+            {
+              "listen": "test",
+              "script": {
+                "exec": [
+                  "// Проверка статуса\r",
+                  "pm.test(\"Status code is 400\", function () {\r",
+                  "    pm.response.to.have.status(400);\r",
+                  "});\r",
+                  "\r",
+                  "// Проверка success = false\r",
+                  "pm.test(\"Response contains success = false\", function () {\r",
+                  "    const response = pm.response.json();\r",
+                  "    pm.expect(response.success).to.eql(false);\r",
+                  "});\r",
+                  "\r",
+                  "// Проверка сообщения об ошибке\r",
+                  "pm.test(\"Response contains correct error message\", function () {\r",
+                  "    const response = pm.response.json();\r",
+                  "    pm.expect(response.error).to.eql(\"Некорректная дата\");\r",
+                  "});\r",
+                  "\r",
+                  "// Проверка типа полей (дополнительно)\r",
+                  "pm.test(\"Response fields have correct types\", function () {\r",
+                  "    const response = pm.response.json();\r",
+                  "    pm.expect(typeof response.error).to.eql(\"string\");\r",
+                  "    pm.expect(typeof response.success).to.eql(\"boolean\");\r",
+                  "});"
+                ],
+                "type": "text/javascript",
+                "packages": {},
+                "requests": {}
+              }
+            }
+          ],
+          "request": {
+            "method": "POST",
+            "header": [],
+            "body": {
+              "mode": "raw",
+              "raw": "{\r\n  \"date\": \"  .  .    \"\r\n}",
+              "options": {
+                "raw": {
+                  "language": "json"
+                }
+              }
+            },
+            "url": {
+              "raw": "{{Convert_base_URL}}{{date_to_day}}",
+              "host": [
+                "{{Convert_base_URL}}{{date_to_day}}"
+              ]
+            }
+          },
+          "response": []
+        },
+        {
+          "name": "400 Проверка отправки запроса с некорректным типом данных (boolean) в \"data\"",
+          "event": [
+            {
+              "listen": "test",
+              "script": {
+                "exec": [
+                  "// Проверка статуса\r",
+                  "pm.test(\"Status code is 400\", function () {\r",
+                  "    pm.response.to.have.status(400);\r",
+                  "});\r",
+                  "\r",
+                  "// Проверка success = false\r",
+                  "pm.test(\"Response contains success = false\", function () {\r",
+                  "    const response = pm.response.json();\r",
+                  "    pm.expect(response.success).to.eql(false);\r",
+                  "});\r",
+                  "\r",
+                  "// Проверка сообщения об ошибке\r",
+                  "pm.test(\"Response contains correct error message\", function () {\r",
+                  "    const response = pm.response.json();\r",
+                  "    pm.expect(response.error).to.eql(\"Некорректная дата\");\r",
+                  "});\r",
+                  "\r",
+                  "// Проверка типа полей (дополнительно)\r",
+                  "pm.test(\"Response fields have correct types\", function () {\r",
+                  "    const response = pm.response.json();\r",
+                  "    pm.expect(typeof response.error).to.eql(\"string\");\r",
+                  "    pm.expect(typeof response.success).to.eql(\"boolean\");\r",
+                  "});"
+                ],
+                "type": "text/javascript",
+                "packages": {},
+                "requests": {}
+              }
+            }
+          ],
+          "request": {
+            "method": "POST",
+            "header": [],
+            "body": {
+              "mode": "raw",
+              "raw": "{\r\n  \"date\": true\r\n}",
+              "options": {
+                "raw": {
+                  "language": "json"
+                }
+              }
+            },
+            "url": {
+              "raw": "{{Convert_base_URL}}{{date_to_day}}",
+              "host": [
+                "{{Convert_base_URL}}{{date_to_day}}"
+              ]
+            }
+          },
+          "response": []
+        },
+        {
+          "name": "400 Проверка отправки запроса с ошибкой в синтаксисе JSON",
+          "event": [
+            {
+              "listen": "test",
+              "script": {
+                "exec": [
+                  "// Проверка статуса\r",
+                  "pm.test(\"Status code is 400\", function () {\r",
+                  "    pm.response.to.have.status(400);\r",
+                  "});\r",
+                  "\r",
+                  "// Проверка сообщения об ошибке\r",
+                  "pm.test(\"Response contains error message\", function () {\r",
+                  "    const responseText = pm.response.text();\r",
+                  "    pm.expect(responseText).to.include(\"could not understand\");\r",
+                  "});\r",
+                  "\r",
+                  ""
+                ],
+                "type": "text/javascript",
+                "packages": {},
+                "requests": {}
+              }
+            }
+          ],
+          "request": {
+            "method": "POST",
+            "header": [],
+            "body": {
+              "mode": "raw",
+              "raw": "{\r\n  \"date\": \"15.03.1975\r\n}",
+              "options": {
+                "raw": {
+                  "language": "json"
+                }
+              }
+            },
+            "url": {
+              "raw": "{{Convert_base_URL}}{{date_to_day}}",
+              "host": [
+                "{{Convert_base_URL}}{{date_to_day}}"
+              ]
+            }
+          },
+          "response": []
+        },
+        {
+          "name": "400 Проверка отправки запроса с задублированным параметром \"date\", но одна дата - валидная, а вторая - невалидная",
+          "event": [
+            {
+              "listen": "test",
+              "script": {
+                "exec": [
+                  "// Проверка статуса\r",
+                  "pm.test(\"Status code is 400\", function () {\r",
+                  "    pm.response.to.have.status(400);\r",
+                  "});\r",
+                  "\r",
+                  "// Проверка success = false\r",
+                  "pm.test(\"Response contains success = false\", function () {\r",
+                  "    const response = pm.response.json();\r",
+                  "    pm.expect(response.success).to.eql(false);\r",
+                  "});\r",
+                  "\r",
+                  "// Проверка сообщения об ошибке\r",
+                  "pm.test(\"Response contains correct error message\", function () {\r",
+                  "    const response = pm.response.json();\r",
+                  "    pm.expect(response.error).to.eql(\"Некорректная дата\");\r",
+                  "});\r",
+                  "\r",
+                  "// Проверка типа полей (дополнительно)\r",
+                  "pm.test(\"Response fields have correct types\", function () {\r",
+                  "    const response = pm.response.json();\r",
+                  "    pm.expect(typeof response.error).to.eql(\"string\");\r",
+                  "    pm.expect(typeof response.success).to.eql(\"boolean\");\r",
+                  "});"
+                ],
+                "type": "text/javascript",
+                "packages": {},
+                "requests": {}
+              }
+            }
+          ],
+          "request": {
+            "method": "POST",
+            "header": [],
+            "body": {
+              "mode": "raw",
+              "raw": "{\r\n  \"date\": \"15.03.1975\", \r\n  \"date\": \"00.07.1980\"\r\n}",
+              "options": {
+                "raw": {
+                  "language": "json"
+                }
+              }
+            },
+            "url": {
+              "raw": "{{Convert_base_URL}}{{date_to_day}}",
+              "host": [
+                "{{Convert_base_URL}}{{date_to_day}}"
+              ]
+            }
+          },
+          "response": []
+        },
+        {
+          "name": "400 Проверка отправки запроса с пустым объектом",
+          "event": [
+            {
+              "listen": "test",
+              "script": {
+                "exec": [
+                  "// Проверка статуса\r",
+                  "pm.test(\"Status code is 400\", function () {\r",
+                  "    pm.response.to.have.status(400);\r",
+                  "});\r",
+                  "\r",
+                  "// Проверка success = false\r",
+                  "pm.test(\"Response contains success = false\", function () {\r",
+                  "    const response = pm.response.json();\r",
+                  "    pm.expect(response.success).to.eql(false);\r",
+                  "});\r",
+                  "\r",
+                  "// Проверка сообщения об ошибке\r",
+                  "pm.test(\"Response contains correct error message\", function () {\r",
+                  "    const response = pm.response.json();\r",
+                  "    pm.expect(response.error).to.eql(\"Дата не передана\");\r",
+                  "});\r",
+                  "\r",
+                  "// Проверка типа полей (дополнительно)\r",
+                  "pm.test(\"Response fields have correct types\", function () {\r",
+                  "    const response = pm.response.json();\r",
+                  "    pm.expect(typeof response.error).to.eql(\"string\");\r",
+                  "    pm.expect(typeof response.success).to.eql(\"boolean\");\r",
+                  "});"
+                ],
+                "type": "text/javascript",
+                "packages": {},
+                "requests": {}
+              }
+            }
+          ],
+          "request": {
+            "method": "POST",
+            "header": [],
+            "body": {
+              "mode": "raw",
+              "raw": "{}",
+              "options": {
+                "raw": {
+                  "language": "json"
+                }
+              }
+            },
+            "url": {
+              "raw": "{{Convert_base_URL}}{{date_to_day}}",
+              "host": [
+                "{{Convert_base_URL}}{{date_to_day}}"
+              ]
+            }
+          },
+          "response": []
+        },
+        {
+          "name": "405 Отправка запроса с неправильным методом (GET)",
+          "event": [
+            {
+              "listen": "test",
+              "script": {
+                "exec": [
+                  "pm.test(\"Status code is 405\", function () {\r",
+                  "    pm.response.to.have.status(405);\r",
+                  "});\r",
+                  "\r",
+                  "pm.test(\"Response contains 'Method Not Allowed'\", function () {\r",
+                  "    const responseText = pm.response.text();\r",
+                  "    pm.expect(responseText).to.include(\"Method Not Allowed\");\r",
+                  "});"
+                ],
+                "type": "text/javascript",
+                "packages": {},
+                "requests": {}
+              }
+            }
+          ],
+          "protocolProfileBehavior": {
+            "disableBodyPruning": true
+          },
+          "request": {
+            "method": "GET",
+            "header": [],
+            "body": {
+              "mode": "raw",
+              "raw": "{\r\n  \"date\": \"15.03.1975\"\r\n}",
+              "options": {
+                "raw": {
+                  "language": "json"
+                }
+              }
+            },
+            "url": {
+              "raw": "{{Convert_base_URL}}{{date_to_day}}",
+              "host": [
+                "{{Convert_base_URL}}{{date_to_day}}"
+              ]
+            }
+          },
+          "response": []
+        }
+      ]
+    }
+  ],
+  "event": [
+    {
+      "listen": "prerequest",
+      "script": {
+        "type": "text/javascript",
+        "packages": {},
+        "requests": {},
+        "exec": [
+          ""
+        ]
+      }
+    },
+    {
+      "listen": "test",
+      "script": {
+        "type": "text/javascript",
+        "packages": {},
+        "requests": {},
+        "exec": [
+          ""
+        ]
+      }
+    }
+  ],
+  "variable": [
+    {
+      "key": "Convert_base_URL",
+      "value": ""
+    },
+    {
+      "key": "date_to_day",
+      "value": ""
+    },
+    {
+      "key": "health",
+      "value": ""
+    }
+  ]
+}

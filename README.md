@@ -1,0 +1,105 @@
+# Конвертер 
+
+### Некоммерческое приложение для конвертации даты в день недели. 
+
+Приложение развёрнуто на [хостинг-сервисе Render](https://render.com).
+
+#### Приложение: 
+
+https://converter-project.onrender.com 
+
+#### Swagger: 
+
+https://converter-project.onrender.com/apidocs 
+
+#### Kaiten:
+
+https://projectsdesk.kaiten.ru/p/d4f3fa93-290f-4a6c-9665-2c8fae9b3e46 
+
+#### Документация (чек-листы, тест-кейсы, баг-репорты, вопросы/предложения): 
+
+https://docs.google.com/spreadsheets/d/1nbOnGE4f6kM6eiIE-QPPEszQCJDUO2Jvz7EkFdKYpoY/edit?usp=sharing
+
+Для проверки приложения был спроектирован чек-лист, на основе которого были спроектированы тест-кейсы для функциональных проверок. Остальные проверки (UI/UX) оставлены в чек-листе. 
+
+#### Отчет о тестировании:
+
+https://docs.google.com/document/d/1SZhydd8rQ6LXUyPuJxZICe8V2Rjl7SW8u9P_017VhDQ/edit?usp=sharing 
+
+#### Структура проекта: 
+
+```
+Converter-Project/
+│
+├── app.py # Основной файл приложения (Flask)
+├── README.md # Описание проекта
+├── requirements.txt # Зависимости Python
+├── Product_Requirements.md # Требования
+│
+├── templates/
+│ └── index.html # Фронтенд (HTML/CSS/JS)
+│
+├── Autotests_API/
+│ ├── config.py # Конфигурация тестов (URL, эндпоинты)
+│ ├── data.py # Тестовые данные
+│ ├── receive_data.py # Отправка запросов к API
+│ ├── test_check_health.py # Тесты /health
+│ ├── test_get_day_positive.py # Позитивные тесты /get_day
+│ └── test_get_day_negative.py # Негативные тесты /get_day
+│
+├── Autotests_GUI/
+│ ├── data.py # Селекторы и тестовые данные
+│ ├── test_01_positive.py # Позитивные UI-тесты
+│ └── test_02_negative.py # Негативные UI-тесты
+│
+├── Screenshots/ # Скриншоты состояний приложения
+│ ├── Скриншоты состояний приложения с учётом светлой/тёмной темы
+│ 
+├── Converter-Project.postman_collection.json # Коллекция автотестов Postman
+└── CHARLES_Map_Local_Mock_Error_Response.txt # Мок-файл для эмуляции ошибки сети
+```
+
+#### Установка и Запуск
+
+Проверить наличие Python (требуется версия 3.11 или выше):
+
+```bash
+python --version
+```
+
+Установить Python:
+```bash
+https://www.python.org/downloads/ 
+```
+
+Установить зависимости: 
+
+```bash
+pip install -r requirements.txt
+```
+
+Установить браузер для Playwright:
+```bash
+playwright install
+```
+
+Запустить автотесты API:
+```bash
+pytest test_check_health.py test_get_day_positive.py test_get_day_negative.py
+```
+
+Запустить автотесты GUI:
+```bash
+pytest test_01_positive.py test_02_negative.py
+```
+
+#### Технологии
+
+- **Backend:** Python, Flask
+- **Frontend:** HTML, CSS, JavaScript (без фреймворков)
+- **API-документация:** Swagger (Flasgger)
+- **Деплой:** Render
+- **Таск-трекер:** Kaiten
+- **Автотесты API:** Python + pytest
+- **Автотесты GUI:** Python + Playwright + pytest
+- **Репозиторий:** GitHub и GitFlic 
