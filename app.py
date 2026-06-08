@@ -28,7 +28,7 @@ swagger_config = {
     ],
     "static_url_path": "/flasgger_static",
     "swagger_ui": True,
-    "specs_route": "/apidocs/",
+    "specs_route": "/swagger",   # вместо "/api/docs"
 }
 
 swagger = Swagger(app, config=swagger_config)
