@@ -35,6 +35,7 @@ Converter-Project/
 ├── README.md # Описание проекта
 ├── requirements.txt # Зависимости Python
 ├── Product_Requirements.md # Требования
+├── amvera.yaml # Конфигурационный файл для запуска на Amvera
 │
 ├── templates/
 │ └── index.html # Фронтенд (HTML/CSS/JS)
