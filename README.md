@@ -2,15 +2,16 @@
 
 ### Некоммерческое приложение для конвертации даты в день недели. 
 
-Приложение развёрнуто на [хостинг-сервисе Render](https://render.com).
+Приложение развёрнуто на [Amvera Cloud — облаке для хостинга ботов, сайтов и других IT-приложений](https://amvera.ru).
 
 #### Приложение: 
 
-https://converter-project.onrender.com 
+https://converter-project-vofka.amvera.io
 
 #### Swagger: 
 
-https://converter-project.onrender.com/apidocs 
+https://converter-project-vofka.amvera.io/swagger  
+**⚠️ Примечание:** *Из-за особенностей обработки сертификата может отобразиться ошибка «Подключение не защищено. Возможно, злоумышленники пытаются похитить вашу информацию...». В этом случае можно перейти на страницу 'https://converter-project-vofka.amvera.io', а затем допечатать 'swagger'*
 
 #### Kaiten:
 
@@ -35,7 +36,7 @@ Converter-Project/
 ├── README.md # Описание проекта
 ├── requirements.txt # Зависимости Python
 ├── Product_Requirements.md # Требования
-├── amvera.yaml # Конфигурационный файл для запуска на Amvera
+├── amvera.yml # Конфигурационный файл для запуска на Amvera
 │
 ├── templates/
 │ └── index.html # Фронтенд (HTML/CSS/JS)
@@ -99,7 +100,7 @@ pytest test_01_positive.py test_02_negative.py
 - **Backend:** Python, Flask
 - **Frontend:** HTML, CSS, JavaScript (без фреймворков)
 - **API-документация:** Swagger (Flasgger)
-- **Деплой:** Render
+- **Деплой:** Amvera
 - **Таск-трекер:** Kaiten
 - **Автотесты API:** Python + pytest
 - **Автотесты GUI:** Python + Playwright + pytest

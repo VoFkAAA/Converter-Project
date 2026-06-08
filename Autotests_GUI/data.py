@@ -1,6 +1,6 @@
 # data.py
 
-Base_URL = "https://converter-project.onrender.com"
+Base_URL = "https://converter-project-vofka.amvera.io"
 
 API_health = "/health"
 API_get_day = "/get_day"
