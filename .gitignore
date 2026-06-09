@@ -58,6 +58,16 @@ crm_testing.db
 # Gunicorn
 gunicorn.conf.py
 
-# Docker (если будешь использовать)
+# Docker (если будет использоваться)
 *.pid
 docker-compose.override.yml
+
+# Behave
+allure-results/
+allure-report/
+*.json
+
+# Playwright (если надо будет сохранить трейсы или скриншоты падающих тестов)
+test-results/
+playwright-report/
+playwright/.cache/
